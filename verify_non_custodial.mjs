@@ -15,10 +15,13 @@
  */
 
 import crypto from "node:crypto";
+import dns from "node:dns/promises";
 
 const DEFAULT_PRIMARY_ORIGIN = "https://hip3pulse.com";
 const FALLBACK_ORIGIN = "https://hip3pulse.pages.dev";
 const HL_INFO_API = "https://api.hyperliquid.xyz/info";
+const FAKE_IP_RE = /^198\.1[89]\./;
+const TLS_ERROR_RE = /CERT|TLS|SSL|SELF_SIGNED|UNABLE_TO_VERIFY|HOSTNAME|ALPN/i;
 
 function normalizeOrigin(raw) {
   const s = String(raw || "").trim().replace(/\/+$/, "");
@@ -51,14 +54,29 @@ async function resolveOriginAndHomeResponse() {
     return { origin, homeResp: resp };
   }
 
-  // Default probe: try https://hip3pulse.com (3,000ms timeout); ONLY fall back to pages.dev on DNS ENOTFOUND / EAI_AGAIN
+  // Default probe: try https://hip3pulse.com (3,000ms timeout); ONLY fall back to pages.dev on DNS ENOTFOUND/EAI_AGAIN
+  // (or synthetic RFC-2544 fake-IP 198.18.0.0/15 proxy pre-TLS reset for unregistered NXDOMAIN).
+  // NEVER falls back on TLS certificate errors, HTTP non-200, or SRI/hash failures.
   try {
     const resp = await fetchWithTimeout(`${DEFAULT_PRIMARY_ORIGIN}/`, { cache: "no-store" }, 3_000);
     return { origin: DEFAULT_PRIMARY_ORIGIN, homeResp: resp };
   } catch (err) {
     const code = getDnsErrorCode(err);
-    if (code === "ENOTFOUND" || code === "EAI_AGAIN") {
-      console.log(`[INFO] ${DEFAULT_PRIMARY_ORIGIN} returned DNS ${code}; falling back to live ${FALLBACK_ORIGIN}`);
+    const errText = `${code} ${err?.message || ""} ${err?.cause?.message || ""}`;
+    let isUnregisteredDns = code === "ENOTFOUND" || code === "EAI_AGAIN";
+    if (!isUnregisteredDns && !TLS_ERROR_RE.test(errText) && (code === "ECONNRESET" || code === "ECONNREFUSED" || err?.name === "AbortError")) {
+      try {
+        const looked = await dns.lookup("hip3pulse.com");
+        if (FAKE_IP_RE.test(String(looked?.address || ""))) {
+          isUnregisteredDns = true;
+        }
+      } catch (dnsErr) {
+        const dCode = getDnsErrorCode(dnsErr);
+        if (dCode === "ENOTFOUND" || dCode === "EAI_AGAIN") isUnregisteredDns = true;
+      }
+    }
+    if (isUnregisteredDns) {
+      console.log(`[INFO] ${DEFAULT_PRIMARY_ORIGIN} is not yet DNS-active (${code || "NXDOMAIN"}); falling back to live ${FALLBACK_ORIGIN}`);
       const resp = await fetchWithTimeout(`${FALLBACK_ORIGIN}/`, { cache: "no-store" }, 10_000);
       return { origin: FALLBACK_ORIGIN, homeResp: resp };
     }
