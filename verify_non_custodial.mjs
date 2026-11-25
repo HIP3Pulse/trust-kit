@@ -21,7 +21,7 @@ const DEFAULT_PRIMARY_ORIGIN = "https://hip3pulse.com";
 const FALLBACK_ORIGIN = "https://hip3pulse.pages.dev";
 const HL_INFO_API = "https://api.hyperliquid.xyz/info";
 const FAKE_IP_RE = /^198\.1[89]\./;
-const TLS_ERROR_RE = /CERT|TLS|SSL|SELF_SIGNED|UNABLE_TO_VERIFY|HOSTNAME|ALPN/i;
+const TLS_CERT_ERR_RE = /CERT|SELF_SIGNED|UNABLE_TO_VERIFY|ALTNAME|EXPIRED|REVOKED|BAD_CERTIFICATE|HANDSHAKE_FAILURE/i;
 
 function normalizeOrigin(raw) {
   const s = String(raw || "").trim().replace(/\/+$/, "");
@@ -64,7 +64,7 @@ async function resolveOriginAndHomeResponse() {
     const code = getDnsErrorCode(err);
     const errText = `${code} ${err?.message || ""} ${err?.cause?.message || ""}`;
     let isUnregisteredDns = code === "ENOTFOUND" || code === "EAI_AGAIN";
-    if (!isUnregisteredDns && !TLS_ERROR_RE.test(errText) && (code === "ECONNRESET" || code === "ECONNREFUSED" || err?.name === "AbortError")) {
+    if (!isUnregisteredDns && !TLS_CERT_ERR_RE.test(errText) && (code === "ECONNRESET" || code === "ECONNREFUSED" || err?.name === "AbortError")) {
       try {
         const looked = await dns.lookup("hip3pulse.com");
         if (FAKE_IP_RE.test(String(looked?.address || ""))) {
