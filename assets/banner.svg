@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" fill="none">
+  <defs>
+    <linearGradient id="topBar" x1="0" y1="0" x2="1280" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#50F5C9"/>
+      <stop offset="55%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#FBBF24"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="16%" cy="22%" r="48%">
+      <stop offset="0%" stop-color="#50F5C9" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#060D13" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="86%" cy="35%" r="45%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#060D13" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="320" rx="18" fill="#060D13"/>
+  <rect width="1280" height="320" rx="18" fill="url(#glowL)"/>
+  <rect width="1280" height="320" rx="18" fill="url(#glowR)"/>
+  <rect x="0" y="0" width="1280" height="5" fill="url(#topBar)"/>
+  <rect x="18" y="18" width="1244" height="284" rx="14" stroke="#223644" stroke-width="1.5"/>
+
+  <path d="M770 198 H845 L872 152 L912 222 L958 112 L1002 184 L1030 162 H1210" stroke="#38BDF8" stroke-opacity="0.34" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M770 172 H838 L866 218 L912 86 L954 196 L986 164 L1035 172 H1210" stroke="#50F5C9" stroke-opacity="0.58" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="912" cy="86" r="7" fill="#060D13" stroke="#FBBF24" stroke-width="3"/>
+  <circle cx="912" cy="86" r="2.5" fill="#FBBF24"/>
+  <circle cx="1035" cy="172" r="5" fill="#060D13" stroke="#38BDF8" stroke-width="2.4"/>
+
+  <g transform="translate(56, 62) scale(1.45)">
+    <rect x="2" y="2" width="60" height="60" rx="14" fill="#060D13" stroke="#2C5662" stroke-width="2"/>
+    <line x1="9" y1="34" x2="55" y2="34" stroke="#162A36" stroke-width="1.2"/>
+    <path d="M9 40h10l6-8 9 13 9-17h12" stroke="#38BDF8" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9 34h9l6 12 9-29 8 23 5-6h9" stroke="#50F5C9" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="33" cy="17" r="4.6" fill="#060D13" stroke="#FBBF24" stroke-width="2.4"/>
+    <circle cx="33" cy="17" r="1.6" fill="#FBBF24"/>
+  </g>
+
+  <text x="174" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif" font-size="52" font-weight="800" fill="#F8FAFC" letter-spacing="-1">HIP3<tspan fill="#50F5C9">Pulse</tspan></text>
+  <rect x="444" y="76" width="144" height="32" rx="7" fill="#0E222E" stroke="#38BDF8" stroke-width="1.4"/>
+  <text x="516" y="97" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="14" font-weight="700" fill="#38BDF8">TRUST KIT</text>
+
+  <text x="174" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif" font-size="21" font-weight="500" fill="#CBD5E1">Verifiable Non-Custodial Infrastructure for Hyperliquid HIP-3 &amp; HyperCore</text>
+
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="13.5" font-weight="600">
+    <rect x="56" y="216" width="224" height="40" rx="8" fill="#0B161E" stroke="#223644"/>
+    <text x="74" y="241" fill="#50F5C9">SHA-384 4-Script SRI</text>
+
+    <rect x="296" y="216" width="234" height="40" rx="8" fill="#0B161E" stroke="#223644"/>
+    <text x="314" y="241" fill="#38BDF8">Strict CSP Zero-3P</text>
+
+    <rect x="546" y="216" width="268" height="40" rx="8" fill="#0B161E" stroke="#223644"/>
+    <text x="564" y="241" fill="#FBBF24">ApproveAgent Zero-Withdraw</text>
+
+    <rect x="830" y="216" width="388" height="40" rx="8" fill="#0B161E" stroke="#223644"/>
+    <text x="848" y="241" fill="#94A3B8">0.5-2.0 bps Tiers · 0 bps Unwind</text>
+  </g>
+</svg>
