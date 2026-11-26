@@ -4,7 +4,7 @@
 
 Client-side cryptographic verification toolkit, security architecture specification, and product overview for **HIP3Pulse** — a non-custodial execution and microstructure risk terminal built exclusively for the **Hyperliquid L1** (HIP-3 + HyperCore) ecosystem.
 
-- **Live Terminal**: [https://hip3pulse.pages.dev](https://hip3pulse.pages.dev)
+- **Live Terminal**: [https://hip3pulse.com](https://hip3pulse.com)
 - **Telegram Feed**: [@HIP3Pulse](https://t.me/HIP3Pulse)
 - **X Updates**: [@HIP3Pulse](https://x.com/HIP3Pulse)
 
@@ -21,7 +21,7 @@ node verify_non_custodial.mjs
 Or specify an explicit origin:
 
 ```bash
-node verify_non_custodial.mjs https://hip3pulse.pages.dev
+node verify_non_custodial.mjs https://hip3pulse.com
 ```
 
 What `verify_non_custodial.mjs` verifies on every run (exits `0` only if all 4 checks pass):
