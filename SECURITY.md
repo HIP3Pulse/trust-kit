@@ -5,7 +5,7 @@ HIP3Pulse is engineered so users never have to trust an operator with custody of
 ## 1. Local Client Signing & Zero Withdrawal Permission (`ApproveAgent`)
 
 - Main wallet EIP-712 signatures are executed locally in the user's own wallet provider.
-- Optional 1-Click 24-hour trading uses Hyperliquid's native `ApproveAgent` protocol mechanism, generating an ephemeral session key strictly inside browser `sessionStorage`.
+- Optional 1-Click 24-hour trading uses Hyperliquid's native `ApproveAgent` protocol mechanism, generating a trade-only ephemeral session key encrypted at rest across same-origin tabs with a non-extractable (`extractable: false`) WebCrypto `AES-GCM-256` `CryptoKey` stored in browser `IndexedDB` (preventing plaintext key persistence and `exportKey` exfiltration; runtime same-origin XSS defense relies strictly on `script-src 'self'` CSP, 4-script `SHA-384` SRI, and `escHtml()` escaping, with automatic single-tab `sessionStorage` fallback when IndexedDB is unavailable in private browsing).
 - At the Hyperliquid L1 protocol layer, approved agent keys **cannot withdraw funds, transfer balances, or modify account-level custody settings** — they are strictly trade-only and can be revoked or wiped at any time.
 
 ## 2. Explicit On-Chain Builder Fee Cap (`ApproveBuilderFee`) & `0 bps` Closes
